@@ -19,13 +19,13 @@
 ####################################
 #       PROJECT
 ###################################
-PROJECT=thesis
+PROJECT=bewerbung
 
 
 ####################################
 #       SETTINGS
 ###################################
-OUTPUTDIR=.out
+OUTPUTDIR=output
 SHELL=/bin/bash
 
 
