@@ -1,0 +1,15 @@
+Foremost version 1.5.7 by Jesse Kornblum, Kris Kendall, and Nick Mikus
+Audit File
+
+Foremost started at Mon Jul  5 14:09:37 2021
+Invocation: foremost -i /dev/sdc 
+Output directory: /media/data/owncloud/Documents/Bürokratie/Vorlage Bewerbung/Bewerbungen 2019/output
+Configuration file: /etc/foremost.conf
+------------------------------------------------------------------
+File: stdin
+Start: Mon Jul  5 14:09:37 2021
+Length: Unknown
+ 
+Num	 Name (bs=512)	       Size	 File Offset	 Comment 
+
+Interrupt received at Mon Jul  5 14:11:47 2021

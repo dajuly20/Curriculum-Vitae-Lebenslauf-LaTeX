@@ -1,0 +1,330 @@
+% Copyright 2009-2011 Dominik Wagenfuehr <dominik.wagenfuehr@deesaster.org>
+% Dieses Dokument unterliegt der Creative-Commons-Lizenz
+% "Namensnennung-Weitergabe unter gleichen Bedingungen 3.0 Deutschland"
+% [http://creativecommons.org/licenses/by-sa/3.0/de/].
+
+\documentclass[12pt,parskip=half-]{scrartcl}
+
+\input{befehle.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Eigene Definitionen
+% Ab hier sollte man selbst Änderungen vornehmen.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Eigene Adresse festgelegt.
+\newcommand*{\VollerName}{Julian Wiche}
+\newcommand*{\AbsenderStrasse}{Merzhauserstr. 14}
+\newcommand*{\AbsenderPLZOrt}{79100 Freiburg}
+\newcommand*{\Telefon}{Tel.: 0175 240\,78\,66}
+\newcommand*{\EMail}{julian@wiche.eu}
+\newcommand*{\OrtDatum}{Freiburg, \today}
+\newcommand*{\Geburtstag}{14. September 1986}
+\newcommand*{\Geburtsort}{Freiburg}
+\newcommand*{\Details}{} % verheiratet, 2 Kinder, etc.
+\newcommand*{\Ausbildungsgrad}{B. Eng. Technische Informatik}
+
+% Die Unterschrift sollte als Bilddatei vorliegen.
+\newcommand*{\UnterschriftenDatei}{signatur-bewerber.png}
+
+% Das Bewerberfoto.
+\newcommand*{\BewerberFoto}{Bewerbungsbild-07-2019.jpg}
+
+% Adressat festlegen
+\newcommand*{\Firma}{SICK AG}
+\newcommand*{\AdressatVorname}{Helene}
+\newcommand*{\AdressatNachname}{Bich}
+\newcommand*{\AnschriftStrasse}{Erwin-Sick-Str. 1}
+\newcommand*{\AnschriftPLZOrt}{D-79183 Waldkirch}
+
+% Die beiden Anreden im Briefkopf und im Text müssen
+% unterschieden werden.
+\newcommand*{\AnredeKopf}{Frau}   % alternativ: Frau
+\newcommand*{\AnredeText}{ Frau}  % alternativ: Frau
+
+% Die Stelle, auf die man sich bewirbt
+\newcommand*{\Bewerberstelle}{Full Stack Developer (m/w)}
+
+% Der Anschreibentext.
+\newcommand{\AnschreibenText}
+{%
+    {\itshape
+       Von der Agentur für Arbeit habe ich einen Vermittlungsvorschlag für die ausgeschriebene Stelle als Full Stack Developer, (Referenznr.: 10000-1183531950-S erhalten.
+        
+    	Sehr gerne bewerbe ich mich deshalb um diese Stelle bei Ihnen.	
+        
+    }
+}
+
+% Hinweis auf Anlagen
+% Wenn nicht benötigt, dann einfach auskommentieren.
+\newcommand{\AnschreibenAnlage}
+{%
+    Anlagen
+}
+
+% Text für die Motivationsseite
+\newcommand{\Motivationstext}
+{%
+    {\itshape
+        Hier steht nun der Motivationstext. Man sollte ein bisschen mehr
+        über sich erzählen und wieso man in der Firma anfangen will.
+        
+        Dabei kann man etwas weiter ausholen, frühere Tätigkeiten
+        beschreiben, aber auch auf private nützliche Dinge eingehen,
+        die bei der Arbeit helfen können.
+        
+        In dem Beispiel hier zum Beispiel die Erfahrungen der
+        Tierartzpraxis und die eigenen Haustiere.
+        
+        Den Hinweis hier natürlich löschen! Das heißt, alles, was in
+        den geschweiften Klammern steht, kann weg.        
+    }
+}
+
+
+% Titel und Autor des PDFs werden automatisch festgelegt,
+% was aber erst nach der Definition des Namens geht.
+\hypersetup{%
+    %pdftitle={Bewerbung bei \Firma},
+    pdftitle={Lebenslauf \VollerName},
+    pdfauthor={\VollerName},
+    pdfcreator={\VollerName}
+}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Das Anschreiben
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ggf. braucht man zwischen Anschrift und text etwas Abstand,
+% je nachdem, wie viel man im Anschreiben hat. (Standard ist 1em.)
+% \setlength{\AbstandVorOrt}{2em}
+
+% Normalerweise gibt es zwischen den zwei Adressen im Anschreiben
+% keinen Abstand. Wer dennoch einen will, einfach den Abstand
+% neu setzen. (Standard ist 0em.)
+%\setlength{\AbstandZwischenAdressen}{1em}
+
+%\Anschreiben
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Meine Seite
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\MeineSeite
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lebenslauf
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Ab hier muss man selbst tätig werden und Inhalt einfüllen!
+
+\section{Lebenslauf}
+
+\subsection{Studium}
+
+\begin{Abschnitt}
+10/2012 -- 04/2019  & \textbf{Technische Informatik (B. Eng.)}\\
+& Hochschule Pforzheim \\
+             & Note: 2,2 (gut) \\
+& Abschlussarbeit: "`\textit{Konzept und Implementierung einer SPS-Kleinsteuerung auf einem Raspberry Pi mit graphischer Programmierung und IFTTT-Funktionalität}"'\\
+& Note: 2,0 (gut) \\
+\Abstand             
+%\Unterabschnitt{Projektarbeiten}{%
+%          	\begin{itemize}
+%          		\item Entwicklung einer Android App (in Java)  
+%          		\item Erfassung, Übertragung und Auswertung von %Solar-Leistungsdaten (Linux, RS485, MariaDB)
+%          	\end{itemize}
+%}
+
+
+%\Unterabschnitt{Vertiefungsmodule}{%
+%	\begin{itemize}
+%		\item Web Technologies
+%		\item Industrielle Bildbearbeitung
+%		\item Programmieren mit der C++ Standard Template Library (STL)
+%		\item Softwareentwicklung in Java  
+%		
+%	\end{itemize}
+%}
+              
+\end{Abschnitt}
+
+
+\subsection{Berufsausbildung}
+
+\begin{Abschnitt}
+	09/2007 -- 03/2011 & Elektroniker Fachrichtung Energie- u. Gebäudetechnik\\ 
+	&Elektro Schillinger GmbH, Freiburg\\
+	& Bewertung: 83 Punkte (gut)\\
+	\\
+	09/2006 -- 07/2007 	& Einjährige Berufsfachschule Elektrotechnik\\
+	& Hans Thoma Schule, Titisee-Neustadt\\
+
+	 
+\end{Abschnitt}
+\Abstand
+\subsection{Zivildienst}
+
+\begin{Abschnitt}
+	12/2005 -- 08/2006 & Theresienklinik Bad Krozingen\\
+	& \textit{Haustechnik und Fahrdienst} \\
+\end{Abschnitt}
+\clearpage
+\subsection{Schulbildung}
+
+\begin{Abschnitt}
+09/2011 -- 07/2012 & Berufskolleg Freiburg\\
+    & Fachhochschulreife Note: 2,0 (gut)\\
+\\
+09/2004 -- 07/2005 & Technisches Gymnasium Richard Fehrenbach Freiburg\\
+\\
+09/2001 -- 07/2004 & Emil Thoma Realschule Freiburg\\
+  & Mittlere Reife Note: 2,25 (gut)\\
+\\
+09/1997 -- 07/2001 & Staudinger Gesamtschule Freiburg\\
+\end{Abschnitt}
+% Neue Seite, die Überschrift muss jedesmal eingefügt werden!
+%\clearpage
+%\section{Lebenslauf}
+\Abstand
+\subsection{Praktische Tätigkeiten}
+
+\begin{Abschnitt}
+06/2022 --  jetzt 	& KRIKO Engineering\\
+& \textit{Softwareentwicklung  TypeScript \/ React}\\
+\\
+09/2019 --	05/2021 & HRworks GmbH, Freiburg\\
+& \textit{Softwareentwicklung, Smalltalk}\\
+\\
+11/2018 --	01/2019 & Pixabit GmbH, Leonberg\\
+& \textit{Werkstudent Softwareentwicklung Datenbanken, PHP}\\
+\\
+05/2016 -- 11/2016	& IT Asset Management GmbH, Teningen \\
+& \textit{Werkstudent App-Entwicklung (Android / Cordova)}\\ 
+\\
+03/2015 --	01/2016 &Pixabit GmbH, Leonberg\\
+& \textit{Werkstudent Softwareentwicklung VoIP Telefonanlagen} \\
+\\
+09/2014 -- 02/2015 &AVM Computersysteme Vertriebs GmbH, Berlin\\
+				   & \textit{Praxissemester: Entwicklung von Softwaretests}\\
+
+%\\
+%07/2013 -- 09/2013 & Anura Personal GmbH, Freiburg\\
+%& \textit{Elektroniker für Energie und Gebäudetechnik}\\
+%\\
+%07/2012 -- 09/2012 & MONDI GmbH, Freiburg \\
+%& \textit{Elektroniker für Energie und Gebäudetechnik}\\
+%\\
+%03/2011 -- 09/2011 & MONDI GmbH, Freiburg \\
+%				   & \textit{Elektroniker für Energie und Gebäudetechnik}		
+\\
+\\
+09/2003 -- 08/2012 & Pizza Boxx GmbH, Freiburg \\
+& \textit{Minijob im Innen und Außendienst} \\
+\Abstand
+%\Unterabschnitt{Kernarbeitsgebiete:}{%
+%\begin{itemize}
+%\item Elektroinstallation
+%\item Netzwerkinstallation
+%\end{itemize}
+
+
+\end{Abschnitt}
+\subsection{Ehrenamtliche Tätigkeiten}
+\begin{AbschnittText}
+\textbf{Freiburger Turnerschaft von 1844 e.V.}&\\
+\textit{Leitung von Sportkursen (Inline-Skating)}
+\end{AbschnittText}
+\Abstand
+
+%\clearpage 
+
+\subsection{Besondere Kenntnisse}
+
+\begin{Abschnitt}
+\textbf{Sprachen} & \\
+Deutsch:&Muttersprache \\
+Englisch:&fließend \\
+
+\\
+\textbf{Programmierung} & \\ 
+Script / Web & PHP, JS, TypeScript, React, Perl, Bash \\
+Microcontroller& C \\
+Objektorientiert & C++, Java, Smalltalk\\
+ Hardw.-beschreibung & VHDL\\
+      
+%\textbf{Medizin} & Allgemeine Veterinärmedizin, \\
+ %                & Reptilien\\
+\end{Abschnitt}
+\Abstand
+\subsection{Hobbys und Interessen}
+
+\begin{Abschnitt}
+  Bouldern &\\
+  Mountainbiking&\\
+\end{Abschnitt}
+
+\UnterschriftOrt
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Motivation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\MeineMotivation
+%\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Anlagen
+% Wenn man keine Anlagen hat, dann alles
+% auskommentieren oder löschen.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Anlagenverzeichnis}
+
+\begin{spacing}{1.1}
+   
+
+    \subsection{Zeugnisse}
+    \begin{itemize}
+    	\item Arbeitszeugnis HRworks
+        \item Bachelor Zeugnis Technische Informatik
+        \item Zeugnis der Fachhochschulreife
+        \item Gesellenbrief Berufsausbildung
+        \item Zeugnis der mittleren Reife
+        \item Zertifikat Englisch Intensivkurs
+    \end{itemize}
+\Abstand
+ \subsection{Arbeitszeugnisse}
+\begin{itemize}
+	\item Pixabit GmbH
+	\item HRworks GmbH
+\end{itemize}
+
+\end{spacing}
+\clearpage
+
+
+% Hier folgen nun die einzelnen Anlagen, die als PDF vorliegen
+ 
+
+
+ \includepdf[pages=-]{anlagen/Bachelor_Zeugnis_Julian_Wiche.pdf}
+ \includepdf[pages=-]{anlagen/Zeugnis_der_Fachhochschulreife_03-07-2012.pdf}
+ \includepdf[pages=-]{anlagen/Gesellenbrief_Elektriker_28-02-2011.pdf}
+ \includepdf[pages=-]{anlagen/Zeugnis_der_mittleren_Reife_09-07-2004.pdf}
+ \includepdf[pages=-]{anlagen/S&A_Language_School_Folkstone_Certificate_16-08-2003.pdf}
+ 
+ 
+\includepdf[pages=2]{anlagen/Arbeitszeugnis_Pixabit_WicheJulian.pdf} 
+\includepdf[pages=-]{anlagen/ArbeitszeugnisHRworks_Julian_Wiche.pdf} 
+
+
+
+\end{document}
