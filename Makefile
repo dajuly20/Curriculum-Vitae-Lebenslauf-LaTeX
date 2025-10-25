@@ -19,7 +19,8 @@
 ####################################
 #       PROJECT
 ###################################
-PROJECT=bewerbung
+PROJECT=$(shell grep '\\newcommand\*{\\Projektname}' bewerbung.tex | sed 's/.*{\(.*\)}.*/\1/')
+FILENAME=$(shell grep '\\newcommand\*{\\PDFDateiname}' $(PROJECT).tex | sed 's/.*{\(.*\)}.*/\1/')
 
 
 ####################################
@@ -129,8 +130,8 @@ BUILDDRAFT		=$(TEX) $(TFLAGS) $(DFLAGS)
 BUILDRESIZE		=$(GHOSTSCRIPT) $(GFLAGS) $(PROJECT).pdf
 BUILDGLOSSARIES	=$(GLOSSARIES) $(GLFLAGS) $(PROJECT)
 BUILDCOUNT		=$(TEXCOUNT) $(TXFLAGS) $(PROJECT).tex 
-COPY			=cp $(OUTPUTDIR)/$(PROJECT).pdf . \
-						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy $(PROJECT).pdf from $(OUTPUTDIR) to workdir$(NO_COLOR)\n";
+COPY			=cp $(OUTPUTDIR)/$(PROJECT).pdf "$(FILENAME).pdf" \
+						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy $(PROJECT).pdf from $(OUTPUTDIR) to $(FILENAME).pdf$(NO_COLOR)\n";
 ####################################
 #       PHONY
 ###################################
@@ -162,7 +163,7 @@ all: clean-all checkdir
 		$(BUILDTEX)
 		$(COPY)
 		@printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening PDF file $(NO_COLOR)\n";
-		xdg-open $(PROJECT).pdf &
+		xdg-open "$(FILENAME).pdf" &
 
 draft: checkdir
 		@printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Building TeX files in draft mode $(NO_COLOR)\n";
