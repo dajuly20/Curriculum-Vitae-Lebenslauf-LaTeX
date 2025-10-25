@@ -161,6 +161,8 @@ all: clean-all checkdir
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building TeX files in final mode (3nd run)$(NO_COLOR)\n";
 		$(BUILDTEX)
 		$(COPY)
+		@printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening PDF file $(NO_COLOR)\n";
+		xdg-open $(PROJECT).pdf &
 
 draft: checkdir
 		@printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Building TeX files in draft mode $(NO_COLOR)\n";
