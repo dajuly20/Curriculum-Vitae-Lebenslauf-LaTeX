@@ -14,6 +14,17 @@ Diese Installation enthält alle notwendigen Pakete für das Projekt:
 - ngerman (deutsche Silbentrennung)
 - und weitere Standard-Pakete
 
+### Tesseract OCR (optional)
+
+Für die Texterkennung in gescannten Dokumenten (`make scan`):
+
+```bash
+sudo apt-get install tesseract-ocr tesseract-ocr-deu
+```
+
+- `tesseract-ocr` - OCR-Engine
+- `tesseract-ocr-deu` - Deutsche Sprachdaten
+
 ## Make-Befehle
 
 ### Hauptbefehle
