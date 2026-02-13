@@ -1,0 +1,46 @@
+{
+  "firma": {
+    "name": "Stellenangebot",
+    "branche": "",
+    "webseite": ""
+  },
+  "ansprechpartner": {
+    "anrede": "Herr",
+    "vorname": "Rolf",
+    "nachname": "Albiez",
+    "position": "",
+    "email": "",
+    "telefon": ""
+  },
+  "anschrift": {
+    "strasse": "FERCHAU GmbH Niederlassung Freiburg\nHerr Rolf Albiez\n\nWaldkircher Str. 28",
+    "plz": "79106",
+    "ort": "Freiburg im Breisgau",
+    "land": "Deutschland"
+  },
+  "stelle": {
+    "bezeichnung": "Arbeitsplatz / Berufsbezeichnung",
+    "referenznummer": "Arbeitsort",
+    "quelle": "",
+    "arbeitsort": "Arbeitszeit",
+    "arbeitsmodell": "Frühester Eintrittstermin"
+  },
+  "bewerbung": {
+    "datum": "",
+    "status": "entwurf",
+    "foto": "Fotos/photo_2026-02-13_07-09-32222.jpg"
+  },
+  "persoenliche_qualifikation": {
+    "staerken": [
+      ""
+    ],
+    "relevante_projekte": [
+      ""
+    ],
+    "motivation": ""
+  },
+  "scan_info": {
+    "gescannt_am": "2026-02-13 07:34",
+    "quelldatei": "photo_2026-02-13_07-09-32222.jpg"
+  }
+}

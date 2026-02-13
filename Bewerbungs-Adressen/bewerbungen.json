@@ -1,0 +1,176 @@
+{
+  "bewerbungen": [
+    {
+      "id": 1,
+      "firma": {
+        "name": "SICK AG",
+        "branche": "Sensorik / Automatisierung",
+        "webseite": "https://www.sick.com"
+      },
+      "ansprechpartner": {
+        "anrede": "Frau",
+        "vorname": "Helene",
+        "nachname": "Bich",
+        "position": "",
+        "email": "",
+        "telefon": ""
+      },
+      "anschrift": {
+        "strasse": "Erwin-Sick-Str. 1",
+        "plz": "79183",
+        "ort": "Waldkirch",
+        "land": "Deutschland"
+      },
+      "stelle": {
+        "bezeichnung": "Full Stack Developer (m/w)",
+        "referenznummer": "10000-1183531950-S",
+        "quelle": "Agentur fuer Arbeit",
+        "arbeitsort": "Waldkirch",
+        "arbeitsmodell": ""
+      },
+      "bewerbung": {
+        "datum": "",
+        "status": "entwurf",
+        "foto": "Fotos/"
+      },
+      "persoenliche_qualifikation": {
+        "staerken": [
+          ""
+        ],
+        "relevante_projekte": [
+          ""
+        ],
+        "motivation": ""
+      }
+    },
+    {
+      "id": 2,
+      "firma": {
+        "name": "Virtual Minds GmbH",
+        "branche": "Software / AI",
+        "webseite": "https://jobs.prosiebensat1.com/job/Freiburg-im-Breisgau-Software-%28AI%29-Developer-%28fmd%29-79100/1327681357/"
+      },
+      "ansprechpartner": {
+        "anrede": "Frau",
+        "vorname": "Maria",
+        "nachname": "Tsormpatzoglou",
+        "position": "Arbeitgeberkontakt",
+        "email": "",
+        "telefon": ""
+      },
+      "anschrift": {
+        "strasse": "Ellen-Gottlieb-Str. 16",
+        "plz": "79106",
+        "ort": "Freiburg im Breisgau",
+        "land": "Deutschland"
+      },
+      "stelle": {
+        "bezeichnung": "Software (AI) Developer (f/m/d)",
+        "referenznummer": "10000-1204468473-S",
+        "quelle": "Jobcenter Freiburg",
+        "arbeitsort": "Freiburg im Breisgau",
+        "arbeitsmodell": "Vollzeit"
+      },
+      "bewerbung": {
+        "datum": "04.02.2026",
+        "status": "entwurf",
+        "foto": "Fotos/photo_2026-02-13_05-24-22 (2).jpg"
+      },
+      "persoenliche_qualifikation": {
+        "staerken": [
+          ""
+        ],
+        "relevante_projekte": [
+          ""
+        ],
+        "motivation": ""
+      }
+    },
+    {
+      "id": 3,
+      "firma": {
+        "name": "Stellenangebot:",
+        "branche": "",
+        "webseite": ""
+      },
+      "ansprechpartner": {
+        "anrede": "Herr",
+        "vorname": "Rolf",
+        "nachname": "Albiez",
+        "position": "",
+        "email": "",
+        "telefon": ""
+      },
+      "anschrift": {
+        "strasse": "",
+        "plz": "",
+        "ort": "",
+        "land": "Deutschland"
+      },
+      "stelle": {
+        "bezeichnung": "Arbeitsplatz / Berufsbezeichnung",
+        "referenznummer": "Arbeitsort",
+        "quelle": "",
+        "arbeitsort": "Arbeitszeit",
+        "arbeitsmodell": "Frühester Eintnitistermin"
+      },
+      "bewerbung": {
+        "datum": "",
+        "status": "entwurf",
+        "foto": "Fotos/2.jpg"
+      },
+      "persoenliche_qualifikation": {
+        "staerken": [
+          ""
+        ],
+        "relevante_projekte": [
+          ""
+        ],
+        "motivation": ""
+      }
+    },
+    {
+      "id": 4,
+      "firma": {
+        "name": "Stellenangebot",
+        "branche": "",
+        "webseite": ""
+      },
+      "ansprechpartner": {
+        "anrede": "Herr",
+        "vorname": "Rolf",
+        "nachname": "Albiez",
+        "position": "",
+        "email": "",
+        "telefon": ""
+      },
+      "anschrift": {
+        "strasse": "FERCHAU GmbH Niederlassung Freiburg\nHerr Rolf Albiez\n\nWaldkircher Str. 28",
+        "plz": "79106",
+        "ort": "Freiburg im Breisgau",
+        "land": "Deutschland"
+      },
+      "stelle": {
+        "bezeichnung": "Arbeitsplatz / Berufsbezeichnung",
+        "referenznummer": "Arbeitsort",
+        "quelle": "",
+        "arbeitsort": "Arbeitszeit",
+        "arbeitsmodell": "Frühester Eintrittstermin"
+      },
+      "bewerbung": {
+        "datum": "",
+        "status": "entwurf",
+        "foto": "Fotos/photo_2026-02-13_07-09-32222.jpg"
+      },
+      "persoenliche_qualifikation": {
+        "staerken": [
+          ""
+        ],
+        "relevante_projekte": [
+          ""
+        ],
+        "motivation": ""
+      }
+    }
+  ]
+}

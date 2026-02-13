@@ -19,8 +19,9 @@
 ####################################
 #       PROJECT
 ###################################
-PROJECT=$(shell grep '\\newcommand\*{\\Projektname}' bewerbung.tex | sed 's/.*{\(.*\)}.*/\1/')
-FILENAME=$(shell grep '\\newcommand\*{\\PDFDateiname}' $(PROJECT).tex | sed 's/.*{\(.*\)}.*/\1/')
+SRCDIR=src
+PROJECT=$(shell grep '\\newcommand\*{\\Projektname}' $(SRCDIR)/bewerbung.tex | sed 's/.*{\(.*\)}.*/\1/')
+FILENAME=$(shell grep '\\newcommand\*{\\PDFDateiname}' $(SRCDIR)/$(PROJECT).tex | sed 's/.*{\(.*\)}.*/\1/')
 
 
 ####################################
@@ -28,6 +29,7 @@ FILENAME=$(shell grep '\\newcommand\*{\\PDFDateiname}' $(PROJECT).tex | sed 's/.
 ###################################
 OUTPUTDIR=output
 SHELL=/bin/bash
+export TEXINPUTS=./$(SRCDIR)//:./:
 
 
 ####################################
@@ -110,26 +112,26 @@ BERRSEARCH+="s/^ERROR/\x1b[31;01m&\x1b[0m/"
 BINFOSEARCH+="s/^INFO/\x1b[32;01m&\x1b[0m/"
 
 #Draft Flags
-DFLAGS+="\def\isdraft{1} \input{$(PROJECT).tex}"
+DFLAGS+="\def\isdraft{1} \input{$(SRCDIR)/$(PROJECT).tex}"
 
 ####################################
 #      EXE 
 ##################################
-BUILDTEX1		=$(TEX) $(TFLAGS) -draftmode $(PROJECT).tex
+BUILDTEX1		=$(TEX) $(TFLAGS) -draftmode $(SRCDIR)/$(PROJECT).tex
 #| grep $(GRFLAGS) $(TEXSEARCH)
 BUILDBIBER		=$(BIBER) $(BFLAGS) $(PROJECT) 	 | sed $(SFLAGS) $(BWARNSEARCH) \
 												 | sed $(SFLAGS) $(BERRSEARCH)  \
 												 | sed $(SFLAGS) $(BINFOSEARCH)
 
-BUILDTEX		=$(TEX) $(TFLAGS) $(PROJECT).tex
+BUILDTEX		=$(TEX) $(TFLAGS) $(SRCDIR)/$(PROJECT).tex
 #| grep $(GRFLAGS) $(TEXSEARCH)
-BUILDLUA		=$(LUALATEX) $(PROJECT).tex
+BUILDLUA		=$(LUALATEX) $(SRCDIR)/$(PROJECT).tex
 BUILDOKULAR		=$(OKULAR) $(PROJECT).pdf $(OFLAGS)
-BUILDDRAFT		=$(TEX) $(TFLAGS) $(DFLAGS) 
+BUILDDRAFT		=$(TEX) $(TFLAGS) $(DFLAGS)
 #| grep $(GRFLAGS) $(TEXSEARCH)
 BUILDRESIZE		=$(GHOSTSCRIPT) $(GFLAGS) $(PROJECT).pdf
 BUILDGLOSSARIES	=$(GLOSSARIES) $(GLFLAGS) $(PROJECT)
-BUILDCOUNT		=$(TEXCOUNT) $(TXFLAGS) $(PROJECT).tex 
+BUILDCOUNT		=$(TEXCOUNT) $(TXFLAGS) $(SRCDIR)/$(PROJECT).tex 
 COPY			=cp $(OUTPUTDIR)/$(PROJECT).pdf "$(FILENAME).pdf" \
 						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy $(PROJECT).pdf from $(OUTPUTDIR) to $(FILENAME).pdf$(NO_COLOR)\n";
 ####################################
@@ -141,16 +143,29 @@ COPY			=cp $(OUTPUTDIR)/$(PROJECT).pdf "$(FILENAME).pdf" \
 .PHONY: count
 .PHONY: glossaries
 .PHONY: checkdir
+.PHONY: bewerbung
+.PHONY: scan
+
+#Bewerbung Dirs
+BEWERBUNGEN_JSON=Bewerbungs-Adressen/bewerbungen.json
+GENERIERT_DIR=Bewerbungs-Adressen/Generierte Bewerbungsdaten
 
 
 ####################################
 #       SILENT MODE
 ###################################
 .SILENT:
+
+# make bewerbung <firmenname> - Argumente nach "bewerbung" als Firmenname nutzen
+ifeq (bewerbung,$(firstword $(MAKECMDGOALS)))
+  BEWERBUNG_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(BEWERBUNG_ARGS):;@:)
+endif
+
 ####################################
 #       RULES
 ###################################
-all: clean-all checkdir
+cv: clean-all checkdir
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building TeX files in final mode (1st run)$(NO_COLOR)\n";
 		$(BUILDTEX1)
 		#@printf "$(RUN_COLOR)[makeglossaries]\t$(NO_COLOR) $(OK_COLOR) Building glossaries $(NO_COLOR)\n";
@@ -164,6 +179,29 @@ all: clean-all checkdir
 		$(COPY)
 		@printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening PDF file $(NO_COLOR)\n";
 		xdg-open "$(FILENAME).pdf" &
+
+bewerbung: checkdir
+ifeq ($(strip $(BEWERBUNG_ARGS)),)
+		$(error Usage: make bewerbung <firmenname>  z.B. make bewerbung Virtual-Minds-GmbH)
+endif
+		@printf "$(RUN_COLOR)[Generate]\t$(NO_COLOR) $(OK_COLOR) Generiere Firmendaten fuer: $(BEWERBUNG_ARGS)$(NO_COLOR)\n";
+		python3 scripts/generate-firmendaten.py $(BEWERBUNGEN_JSON) "$(BEWERBUNG_ARGS)" $(SRCDIR)
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building Bewerbung (1st run)$(NO_COLOR)\n";
+		$(BUILDTEX1)
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building Bewerbung (2nd run)$(NO_COLOR)\n";
+		$(BUILDTEX)
+		@FIRMA=$$(cat $(SRCDIR)/firma.txt); \
+		mkdir -p "$(GENERIERT_DIR)/$$FIRMA"; \
+		cp $(OUTPUTDIR)/$(PROJECT).pdf "$(GENERIERT_DIR)/$$FIRMA/Bewerbungsunterlagen-$$FIRMA.pdf"; \
+		cp $(SRCDIR)/firmendaten.tex "$(GENERIERT_DIR)/$$FIRMA/firmendaten.tex"; \
+		printf "$(RUN_COLOR)[Copy]\t\t$(NO_COLOR) $(OK_COLOR) PDF nach $(GENERIERT_DIR)/$$FIRMA/$(NO_COLOR)\n"; \
+		printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening PDF$(NO_COLOR)\n"; \
+		nohup xdg-open "$(GENERIERT_DIR)/$$FIRMA/Bewerbungsunterlagen-$$FIRMA.pdf" >/dev/null 2>&1 &
+		rm -f $(SRCDIR)/firmendaten.tex $(SRCDIR)/firma.txt
+
+scan:
+		@printf "$(RUN_COLOR)[Scan]\t\t$(NO_COLOR) $(OK_COLOR) Scanne Fotos in Bewerbungs-Adressen/Fotos/$(NO_COLOR)\n";
+		python3 scripts/scan-fotos.py
 
 draft: checkdir
 		@printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Building TeX files in draft mode $(NO_COLOR)\n";
