@@ -127,7 +127,7 @@ def main():
         f"\\renewcommand*{{\\Bewerberstelle}}{{{escape_latex(stelle['bezeichnung'])}}}",
         f"\\renewcommand{{\\AnschreibenText}}{{%",
         f"    {{\\itshape",
-        f"        {escape_latex(anschreiben)}",
+        f"        {anschreiben}",
         f"    }}",
         f"}}",
     ]
@@ -141,6 +141,13 @@ def main():
     meta_path = os.path.join(output_dir, "firma.txt")
     with open(meta_path, 'w', encoding='utf-8') as f:
         f.write(firma_safe)
+
+    # Foto-Pfad fuer Makefile (zum Verschieben der Quelldatei)
+    foto_path = bewerbung.get('bewerbung', {}).get('foto', '')
+    if foto_path:
+        foto_meta_path = os.path.join(output_dir, "foto.txt")
+        with open(foto_meta_path, 'w', encoding='utf-8') as f:
+            f.write(foto_path)
 
     print(f"Generiert: {tex_path} ({firma['name']})")
 

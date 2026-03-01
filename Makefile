@@ -195,9 +195,17 @@ endif
 		cp $(OUTPUTDIR)/$(PROJECT).pdf "$(GENERIERT_DIR)/$$FIRMA/Bewerbungsunterlagen-$$FIRMA.pdf"; \
 		cp $(SRCDIR)/firmendaten.tex "$(GENERIERT_DIR)/$$FIRMA/firmendaten.tex"; \
 		printf "$(RUN_COLOR)[Copy]\t\t$(NO_COLOR) $(OK_COLOR) PDF nach $(GENERIERT_DIR)/$$FIRMA/$(NO_COLOR)\n"; \
+		if [ -f $(SRCDIR)/foto.txt ]; then \
+			FOTO=$$(cat $(SRCDIR)/foto.txt); \
+			FOTO_BASENAME=$$(basename "$$FOTO"); \
+			if [ -f "Bewerbungs-Adressen/$$FOTO" ]; then \
+				mv "Bewerbungs-Adressen/$$FOTO" "$(GENERIERT_DIR)/$$FIRMA/quelle-$$FOTO_BASENAME"; \
+				printf "$(RUN_COLOR)[Move]\t\t$(NO_COLOR) $(OK_COLOR) Quelldatei verschoben$(NO_COLOR)\n"; \
+			fi; \
+		fi; \
 		printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening PDF$(NO_COLOR)\n"; \
 		nohup xdg-open "$(GENERIERT_DIR)/$$FIRMA/Bewerbungsunterlagen-$$FIRMA.pdf" >/dev/null 2>&1 &
-		rm -f $(SRCDIR)/firmendaten.tex $(SRCDIR)/firma.txt
+		rm -f $(SRCDIR)/firmendaten.tex $(SRCDIR)/firma.txt $(SRCDIR)/foto.txt
 
 scan:
 		@printf "$(RUN_COLOR)[Scan]\t\t$(NO_COLOR) $(OK_COLOR) Scanne Fotos in Bewerbungs-Adressen/Fotos/$(NO_COLOR)\n";
