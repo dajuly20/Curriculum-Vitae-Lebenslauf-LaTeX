@@ -96,6 +96,7 @@
 
 \begin{document}
 
+\ifdefined\NurLebenslauf\else
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Das Anschreiben
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,7 +112,9 @@
 
 \Anschreiben
 \clearpage
+\fi % NurLebenslauf
 
+\ifdefined\NurAnschreiben\else
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Meine Seite
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -277,7 +280,10 @@ Objektorientiert & C++, Java, Smalltalk\\
 \UnterschriftOrt
 
 \clearpage
+\fi % NurAnschreiben
 
+\ifdefined\NurAnschreiben\else
+\ifdefined\NurLebenslauf\else
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Motivation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -327,9 +333,10 @@ Objektorientiert & C++, Java, Smalltalk\\
  \includepdf[pages=-]{pdf_anlagen/S&A_Language_School_Folkstone_Certificate_16-08-2003.pdf}
  
  
-\includepdf[pages=2]{pdf_anlagen/Arbeitszeugnis_Pixabit_WicheJulian.pdf} 
-\includepdf[pages=-]{pdf_anlagen/ArbeitszeugnisHRworks_Julian_Wiche.pdf} 
+\includepdf[pages=2]{pdf_anlagen/Arbeitszeugnis_Pixabit_WicheJulian.pdf}
+\includepdf[pages=-]{pdf_anlagen/ArbeitszeugnisHRworks_Julian_Wiche.pdf}
 
-
+\fi % NurLebenslauf
+\fi % NurAnschreiben
 
 \end{document}

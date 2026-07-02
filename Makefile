@@ -1,14 +1,17 @@
 ##################################################################################################################################
-#	Dominik Bauer, 
+#	Dominik Bauer / Julian Wiche
 #	use:
-#	make 			build the sheet
+#	make / make all		build all 3 PDFs (Vollständig + cv.pdf + application.pdf)
+#	make cv			build nur Lebenslauf (cv.pdf)
+#	make application	build nur Anschreiben (application.pdf)
+#	make bewerbung <F>	build Bewerbung für Firma F (alle 3 PDFs)
 #	make draft		build an draft version of the sheet
 #	make clean		clean the messy stuff
 #	make count		count words, merge include files
 #	make resize		compress the pdf to 300dpi
 #	make resize_minimal	compress to minimal dpi
 #	make lua		build the sheet with lualatex
-#	make beam		start okular in presentation mode (for example beamer.pdf) 
+#	make beam		start okular in presentation mode (for example beamer.pdf)
 ##################################################################################################################################
 #	To-Do:
 #	make svn_ci		commit to svn repo (git?) --> Backup 
@@ -115,7 +118,7 @@ BINFOSEARCH+="s/^INFO/\x1b[32;01m&\x1b[0m/"
 DFLAGS+="\def\isdraft{1} \input{$(SRCDIR)/$(PROJECT).tex}"
 
 ####################################
-#      EXE 
+#      EXE
 ##################################
 BUILDTEX1		=$(TEX) $(TFLAGS) -draftmode $(SRCDIR)/$(PROJECT).tex
 #| grep $(GRFLAGS) $(TEXSEARCH)
@@ -125,18 +128,27 @@ BUILDBIBER		=$(BIBER) $(BFLAGS) $(PROJECT) 	 | sed $(SFLAGS) $(BWARNSEARCH) \
 
 BUILDTEX		=$(TEX) $(TFLAGS) $(SRCDIR)/$(PROJECT).tex
 #| grep $(GRFLAGS) $(TEXSEARCH)
+BUILDCV			=$(TEX) $(TFLAGS) $(SRCDIR)/cv.tex
+BUILDAPPLICATION	=$(TEX) $(TFLAGS) $(SRCDIR)/application.tex
 BUILDLUA		=$(LUALATEX) $(SRCDIR)/$(PROJECT).tex
 BUILDOKULAR		=$(OKULAR) $(PROJECT).pdf $(OFLAGS)
 BUILDDRAFT		=$(TEX) $(TFLAGS) $(DFLAGS)
 #| grep $(GRFLAGS) $(TEXSEARCH)
 BUILDRESIZE		=$(GHOSTSCRIPT) $(GFLAGS) $(PROJECT).pdf
 BUILDGLOSSARIES	=$(GLOSSARIES) $(GLFLAGS) $(PROJECT)
-BUILDCOUNT		=$(TEXCOUNT) $(TXFLAGS) $(SRCDIR)/$(PROJECT).tex 
+BUILDCOUNT		=$(TEXCOUNT) $(TXFLAGS) $(SRCDIR)/$(PROJECT).tex
 COPY			=cp $(OUTPUTDIR)/$(PROJECT).pdf "$(FILENAME).pdf" \
-						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy $(PROJECT).pdf from $(OUTPUTDIR) to $(FILENAME).pdf$(NO_COLOR)\n";
+						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy $(PROJECT).pdf → $(FILENAME).pdf$(NO_COLOR)\n";
+COPYCV			=cp $(OUTPUTDIR)/cv.pdf "cv.pdf" \
+						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy cv.pdf → cv.pdf$(NO_COLOR)\n";
+COPYAPPLICATION		=cp $(OUTPUTDIR)/application.pdf "application.pdf" \
+						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy application.pdf → application.pdf$(NO_COLOR)\n";
 ####################################
 #       PHONY
 ###################################
+.PHONY: all
+.PHONY: cv
+.PHONY: application
 .PHONY: clean
 .PHONY: clean-all
 .PHONY: draft
@@ -165,20 +177,42 @@ endif
 ####################################
 #       RULES
 ###################################
-cv: clean-all checkdir
-		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building TeX files in final mode (1st run)$(NO_COLOR)\n";
+
+# Default: alle 3 PDFs bauen
+all: clean-all checkdir
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building full document (1st run)$(NO_COLOR)\n";
 		$(BUILDTEX1)
-		#@printf "$(RUN_COLOR)[makeglossaries]\t$(NO_COLOR) $(OK_COLOR) Building glossaries $(NO_COLOR)\n";
-		#$(BUILDGLOSSARIES)
-		@printf "$(RUN_COLOR)[Biber]\t$(NO_COLOR) $(OK_COLOR) Creating BibTeX entries $(NO_COLOR)\n"; 
+		@printf "$(RUN_COLOR)[Biber]\t$(NO_COLOR) $(OK_COLOR) Creating BibTeX entries$(NO_COLOR)\n";
 		$(BUILDBIBER)
-		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building TeX files in final mode (2nd run)$(NO_COLOR)\n";
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building full document (2nd run)$(NO_COLOR)\n";
 		$(BUILDTEX1)
-		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building TeX files in final mode (3nd run)$(NO_COLOR)\n";
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building full document (3rd run)$(NO_COLOR)\n";
 		$(BUILDTEX)
 		$(COPY)
-		@printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening PDF file $(NO_COLOR)\n";
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building CV only$(NO_COLOR)\n";
+		$(BUILDCV)
+		$(COPYCV)
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building Application only$(NO_COLOR)\n";
+		$(BUILDAPPLICATION)
+		$(COPYAPPLICATION)
+		@printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening PDF file$(NO_COLOR)\n";
 		xdg-open "$(FILENAME).pdf" &
+
+# Nur Lebenslauf (cv.pdf)
+cv: checkdir
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building CV only (cv.pdf)$(NO_COLOR)\n";
+		$(BUILDCV)
+		$(COPYCV)
+		@printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening cv.pdf$(NO_COLOR)\n";
+		xdg-open "cv.pdf" &
+
+# Nur Anschreiben (application.pdf)
+application: checkdir
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building Application only (application.pdf)$(NO_COLOR)\n";
+		$(BUILDAPPLICATION)
+		$(COPYAPPLICATION)
+		@printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening application.pdf$(NO_COLOR)\n";
+		xdg-open "application.pdf" &
 
 bewerbung: checkdir
 ifeq ($(strip $(BEWERBUNG_ARGS)),)
@@ -190,6 +224,12 @@ endif
 		$(BUILDTEX1)
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building Bewerbung (2nd run)$(NO_COLOR)\n";
 		$(BUILDTEX)
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building CV only$(NO_COLOR)\n";
+		$(BUILDCV)
+		$(COPYCV)
+		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building Application only$(NO_COLOR)\n";
+		$(BUILDAPPLICATION)
+		$(COPYAPPLICATION)
 		@FIRMA=$$(cat $(SRCDIR)/firma.txt); \
 		mkdir -p "$(GENERIERT_DIR)/$$FIRMA"; \
 		cp $(OUTPUTDIR)/$(PROJECT).pdf "$(GENERIERT_DIR)/$$FIRMA/Bewerbungsunterlagen-$$FIRMA.pdf"; \

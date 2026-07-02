@@ -31,9 +31,19 @@ sudo apt-get install tesseract-ocr tesseract-ocr-deu
 
 | Befehl | Beschreibung |
 |--------|--------------|
-| `make cv` | Kompiliert den Lebenslauf komplett (3 LaTeX-Durchläufe mit Biber für Bibliographie). Öffnet das PDF automatisch. |
-| `make bewerbung <firmenname>` | Generiert Bewerbungsunterlagen für eine Firma aus `bewerbungen.json`. Beispiel: `make bewerbung Virtual-Minds-GmbH` |
+| `make` / `make all` | Erstellt alle 3 PDFs: vollständiges Dokument (`Lebenslauf Julian Wiche.pdf`), nur Lebenslauf (`cv.pdf`) und nur Anschreiben (`application.pdf`). 3 LaTeX-Durchläufe mit Biber. Öffnet das PDF automatisch. |
+| `make cv` | Erstellt nur den Lebenslauf als `cv.pdf` (ohne Anschreiben und Anlagen). |
+| `make application` | Erstellt nur das Anschreiben als `application.pdf`. |
+| `make bewerbung <firmenname>` | Generiert Bewerbungsunterlagen für eine Firma aus `bewerbungen.json` (alle 3 PDFs). Beispiel: `make bewerbung Virtual-Minds-GmbH` |
 | `make draft` | Schnelle Draft-Version ohne Bibliographie-Updates. Gut für schnelle Vorschau während der Bearbeitung. |
+
+### Erzeugte PDF-Dateien
+
+| Datei | Inhalt |
+|-------|--------|
+| `Lebenslauf Julian Wiche.pdf` | Vollständiges Dokument (Anschreiben + Lebenslauf + Anlagen) |
+| `cv.pdf` | Nur Lebenslauf (MeineSeite + Tabellarischer Lebenslauf) |
+| `application.pdf` | Nur Anschreiben |
 
 ### Hilfsbefehle
 
