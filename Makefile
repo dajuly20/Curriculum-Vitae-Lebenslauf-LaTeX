@@ -11,6 +11,7 @@
 #	make resize		compress the pdf to 300dpi
 #	make resize_minimal	compress to minimal dpi
 #	make lua		build the sheet with lualatex
+#	make check-deps	check all required tools and LaTeX packages
 #	make beam		start okular in presentation mode (for example beamer.pdf)
 ##################################################################################################################################
 #	To-Do:
@@ -149,6 +150,7 @@ COPYAPPLICATION		=cp $(OUTPUTDIR)/application.pdf "application.pdf" \
 .PHONY: all
 .PHONY: cv
 .PHONY: application
+.PHONY: check-deps
 .PHONY: clean
 .PHONY: clean-all
 .PHONY: draft
@@ -178,8 +180,35 @@ endif
 #       RULES
 ###################################
 
+# Abhängigkeiten prüfen
+check-deps:
+		@printf "$(RUN_COLOR)[check-deps]\t$(NO_COLOR) $(OK_COLOR) Prüfe Abhängigkeiten...$(NO_COLOR)\n";
+		@MISSING=""; \
+		for CMD in lualatex biber python3; do \
+			if ! command -v $$CMD >/dev/null 2>&1; then \
+				MISSING="$$MISSING $$CMD"; \
+			fi; \
+		done; \
+		for PKG in texlive-latex-base texlive-latex-extra texlive-lang-german texlive-luatex texlive-fonts-recommended; do \
+			if ! dpkg -s $$PKG >/dev/null 2>&1; then \
+				MISSING="$$MISSING $$PKG"; \
+			fi; \
+		done; \
+		for STYFILE in fontspec.sty babel.sty graphicx.sty fancyhdr.sty pdfpages.sty xifthen.sty titlesec.sty longtable.sty setspace.sty hyperref.sty enumitem.sty; do \
+			if ! kpsewhich $$STYFILE >/dev/null 2>&1; then \
+				MISSING="$$MISSING $$STYFILE"; \
+			fi; \
+		done; \
+		if [ -n "$$MISSING" ]; then \
+			printf "$(ERROR_COLOR)[check-deps]\tFEHLENDE ABHÄNGIGKEITEN:$$MISSING$(NO_COLOR)\n"; \
+			printf "$(WARN_COLOR)[check-deps]\tInstallieren mit: sudo apt-get install texlive texlive-latex-extra texlive-lang-german texlive-luatex texlive-fonts-recommended biber$(NO_COLOR)\n"; \
+			exit 1; \
+		else \
+			printf "$(RUN_COLOR)[check-deps]\t$(NO_COLOR) $(OK_COLOR) Alle Abhängigkeiten vorhanden.$(NO_COLOR)\n"; \
+		fi
+
 # Default: alle 3 PDFs bauen
-all: clean-all checkdir
+all: check-deps clean-all checkdir
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building full document (1st run)$(NO_COLOR)\n";
 		$(BUILDTEX1)
 		@printf "$(RUN_COLOR)[Biber]\t$(NO_COLOR) $(OK_COLOR) Creating BibTeX entries$(NO_COLOR)\n";
@@ -199,7 +228,7 @@ all: clean-all checkdir
 		xdg-open "$(FILENAME).pdf" &
 
 # Nur Lebenslauf (cv.pdf)
-cv: checkdir
+cv: check-deps checkdir
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building CV only (cv.pdf)$(NO_COLOR)\n";
 		$(BUILDCV)
 		$(COPYCV)
@@ -207,14 +236,14 @@ cv: checkdir
 		xdg-open "cv.pdf" &
 
 # Nur Anschreiben (application.pdf)
-application: checkdir
+application: check-deps checkdir
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building Application only (application.pdf)$(NO_COLOR)\n";
 		$(BUILDAPPLICATION)
 		$(COPYAPPLICATION)
 		@printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening application.pdf$(NO_COLOR)\n";
 		xdg-open "application.pdf" &
 
-bewerbung: checkdir
+bewerbung: check-deps checkdir
 ifeq ($(strip $(BEWERBUNG_ARGS)),)
 		$(error Usage: make bewerbung <firmenname>  z.B. make bewerbung Virtual-Minds-GmbH)
 endif
@@ -251,7 +280,7 @@ scan:
 		@printf "$(RUN_COLOR)[Scan]\t\t$(NO_COLOR) $(OK_COLOR) Scanne Fotos in Bewerbungs-Adressen/Fotos/$(NO_COLOR)\n";
 		python3 scripts/scan-fotos.py
 
-draft: checkdir
+draft: check-deps checkdir
 		@printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Building TeX files in draft mode $(NO_COLOR)\n";
 		$(BUILDDRAFT)
 		@printf "$(WARN_COLOR)[$@]\t\t$(NO_COLOR) $(WARN_COLOR) Draft mode: Bibliographie, glossaries and page numbers \

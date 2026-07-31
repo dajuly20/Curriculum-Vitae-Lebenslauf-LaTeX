@@ -49,6 +49,7 @@ sudo apt-get install tesseract-ocr tesseract-ocr-deu
 
 | Befehl | Beschreibung |
 |--------|--------------|
+| `make check-deps` | Prüft ob alle benötigten Tools (`lualatex`, `biber`, `python3`) und LaTeX-Pakete installiert sind. Wird automatisch vor jedem Build ausgeführt. |
 | `make scan` | Scannt Fotos im Verzeichnis `Bewerbungs-Adressen/Fotos/` |
 | `make glossaries` | Erstellt Glossare (falls verwendet) |
 | `make count` | Zählt die Wörter im Dokument |

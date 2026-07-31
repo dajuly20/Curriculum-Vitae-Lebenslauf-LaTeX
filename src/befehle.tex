@@ -4,16 +4,17 @@
 % [http://creativecommons.org/licenses/by-sa/3.0/de/].
 
 % Pakete
-\usepackage[utf8]{inputenc}   % UTF8-Kodierung für Umlaute
-\usepackage[T1]{fontenc}      % use TeX encoding then Type 1.
-\usepackage{lmodern}          % Bessere Schriftart (ersetzt CM-Schriften)
+% LuaLaTeX: fontspec ist Pflicht für korrekte ß-Darstellung.
+% 8-bit-Fonts (charter, lmodern) funktionieren mit LuaLaTeX nicht korrekt (ß→SS).
+% Charter-OTF: sudo apt-get install texlive-fonts-extra → \setmainfont{XCharter}
+\usepackage{fontspec}
+\setmainfont{XCharter}           % Charter-Schrift (OTF); benötigt: texlive-fonts-extra
 \usepackage{babel}             % deutsche Silbentrennung
 \babelprovide[main, import]{ngerman}
 \usepackage{graphicx}         % Einbindung von Grafiken
 \usepackage{fancyhdr}         % eigenes Layout einbinden
 \usepackage{pdfpages}         % PDF-Seiten einbinden
 \usepackage{xifthen}          % Wenn-dann-Abfragen
-\usepackage{charter}          % Charter-Schrift
 \usepackage{titlesec}         % Anpassung der Überschriften
 \usepackage{longtable}        % Tabellen über Seitenumbruch hinweg
 \usepackage{setspace}         % Zeilenabstand festlegen

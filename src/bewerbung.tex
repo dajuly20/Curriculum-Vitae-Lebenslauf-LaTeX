@@ -283,13 +283,14 @@ Objektorientiert & C++, Java, Smalltalk\\
 \fi % NurAnschreiben
 
 \ifdefined\NurAnschreiben\else
-\ifdefined\NurLebenslauf\else
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Motivation
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\ifdefined\NurLebenslauf\else
 %\MeineMotivation
 %\clearpage
+\fi % NurLebenslauf
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Anlagen
@@ -336,7 +337,6 @@ Objektorientiert & C++, Java, Smalltalk\\
 \includepdf[pages=2]{pdf_anlagen/Arbeitszeugnis_Pixabit_WicheJulian.pdf}
 \includepdf[pages=-]{pdf_anlagen/ArbeitszeugnisHRworks_Julian_Wiche.pdf}
 
-\fi % NurLebenslauf
 \fi % NurAnschreiben
 
 \end{document}
