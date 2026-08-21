@@ -32,6 +32,8 @@ FILENAME=$(shell grep '\\newcommand\*{\\PDFDateiname}' $(SRCDIR)/$(PROJECT).tex 
 #       SETTINGS
 ###################################
 OUTPUTDIR=output
+OUTPUBLISH=outPublish
+OUTPRIVATE=outPrivate
 SHELL=/bin/bash
 export TEXINPUTS=./$(SRCDIR)//:./:
 
@@ -138,12 +140,26 @@ BUILDDRAFT		=$(TEX) $(TFLAGS) $(DFLAGS)
 BUILDRESIZE		=$(GHOSTSCRIPT) $(GFLAGS) $(PROJECT).pdf
 BUILDGLOSSARIES	=$(GLOSSARIES) $(GLFLAGS) $(PROJECT)
 BUILDCOUNT		=$(TEXCOUNT) $(TXFLAGS) $(SRCDIR)/$(PROJECT).tex
+#Publish-Flags (public = outPublish, private = outPrivate)
+#Vor dem Kopieren wird die gleichnamige Datei aus BEIDEN Ordnern entfernt,
+#damit bei einer Umklassifizierung keine veraltete Kopie liegen bleibt.
 COPY			=cp $(OUTPUTDIR)/$(PROJECT).pdf "$(FILENAME).pdf" \
-						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy $(PROJECT).pdf → $(FILENAME).pdf$(NO_COLOR)\n";
+						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy $(PROJECT).pdf → $(FILENAME).pdf$(NO_COLOR)\n" \
+						&& rm -f "$(OUTPUBLISH)/$(FILENAME).pdf" "$(OUTPRIVATE)/$(FILENAME).pdf" \
+						&& cp "$(FILENAME).pdf" "$(OUTPRIVATE)/$(FILENAME).pdf" \
+						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Publish $(FILENAME).pdf → $(OUTPRIVATE)/$(NO_COLOR)\n";
 COPYCV			=cp $(OUTPUTDIR)/cv.pdf "cv.pdf" \
-						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy cv.pdf → cv.pdf$(NO_COLOR)\n";
+						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy cv.pdf → cv.pdf$(NO_COLOR)\n" \
+						&& rm -f "$(OUTPUBLISH)/cv.pdf" "$(OUTPRIVATE)/cv.pdf" \
+						&& cp "cv.pdf" "$(OUTPUBLISH)/cv.pdf" \
+						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Publish cv.pdf → $(OUTPUBLISH)/$(NO_COLOR)\n";
 COPYAPPLICATION		=cp $(OUTPUTDIR)/application.pdf "application.pdf" \
-						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy application.pdf → application.pdf$(NO_COLOR)\n";
+						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Copy application.pdf → application.pdf$(NO_COLOR)\n" \
+						&& rm -f "$(OUTPUBLISH)/application.pdf" "$(OUTPRIVATE)/application.pdf" \
+						&& cp "application.pdf" "$(OUTPRIVATE)/application.pdf" \
+						&& printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Publish application.pdf → $(OUTPRIVATE)/$(NO_COLOR)\n";
+#Aktualisiert /var/www/rawdownload/cv -> outPublish/ (nur cv.pdf, siehe COPYCV)
+BUILDPUBLISH	=bash scripts/link-rawdownload.sh
 ####################################
 #       PHONY
 ###################################
@@ -159,6 +175,7 @@ COPYAPPLICATION		=cp $(OUTPUTDIR)/application.pdf "application.pdf" \
 .PHONY: checkdir
 .PHONY: bewerbung
 .PHONY: scan
+.PHONY: publish
 
 #Bewerbung Dirs
 BEWERBUNGEN_JSON=Bewerbungs-Adressen/bewerbungen.json
@@ -221,6 +238,7 @@ all: check-deps clean-all checkdir
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building CV only$(NO_COLOR)\n";
 		$(BUILDCV)
 		$(COPYCV)
+		$(BUILDPUBLISH)
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building Application only$(NO_COLOR)\n";
 		$(BUILDAPPLICATION)
 		$(COPYAPPLICATION)
@@ -232,6 +250,7 @@ cv: check-deps checkdir
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building CV only (cv.pdf)$(NO_COLOR)\n";
 		$(BUILDCV)
 		$(COPYCV)
+		$(BUILDPUBLISH)
 		@printf "$(RUN_COLOR)[PDF]\t\t$(NO_COLOR) $(OK_COLOR) Opening cv.pdf$(NO_COLOR)\n";
 		xdg-open "cv.pdf" &
 
@@ -256,6 +275,7 @@ endif
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building CV only$(NO_COLOR)\n";
 		$(BUILDCV)
 		$(COPYCV)
+		$(BUILDPUBLISH)
 		@printf "$(RUN_COLOR)[TeX]\t\t$(NO_COLOR) $(OK_COLOR) Building Application only$(NO_COLOR)\n";
 		$(BUILDAPPLICATION)
 		$(COPYAPPLICATION)
@@ -326,11 +346,24 @@ lua:
 
 beam:
 		@printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Starting $(OKULAR) in presentation mode $(NO_COLOR)\n";
-		$(BUILDOKULAR) 
+		$(BUILDOKULAR)
+
+# Verlinkt outPublish/ nach /var/www/rawdownload/cv (idempotent)
+publish:
+		@printf "$(RUN_COLOR)[$@]\t\t$(NO_COLOR) $(OK_COLOR) Publishing cv.pdf to rawdownload$(NO_COLOR)\n";
+		$(BUILDPUBLISH)
 checkdir:
 		@printf "$(RUN_COLOR)[$@]\t$(NO_COLOR) $(OK_COLOR) Checking directory $(NO_COLOR)\n";
 		if [ ! -d "./$(OUTPUTDIR)" ];then\
 			mkdir $(OUTPUTDIR);\
 			printf "$(RUN_COLOR)[$@]\t$(NO_COLOR) $(WARN_COLOR) Creating output directory$(NO_COLOR)\n";\
+		fi
+		if [ ! -d "./$(OUTPUBLISH)" ];then\
+			mkdir $(OUTPUBLISH);\
+			printf "$(RUN_COLOR)[$@]\t$(NO_COLOR) $(WARN_COLOR) Creating $(OUTPUBLISH) directory$(NO_COLOR)\n";\
+		fi
+		if [ ! -d "./$(OUTPRIVATE)" ];then\
+			mkdir $(OUTPRIVATE);\
+			printf "$(RUN_COLOR)[$@]\t$(NO_COLOR) $(WARN_COLOR) Creating $(OUTPRIVATE) directory$(NO_COLOR)\n";\
 		fi
 #EOF

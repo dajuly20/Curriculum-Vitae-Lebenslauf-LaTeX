@@ -1,26 +1,28 @@
 #!/usr/bin/env bash
-# Erstellt/aktualisiert den Symlink /var/www/rawdownload/cv -> output/ dieses Repos,
-# damit die gebauten PDFs unter https://.../rawdownload/cv/ erreichbar sind.
+# Erstellt/aktualisiert den Symlink /var/www/rawdownload/cv -> outPublish/ dieses Repos,
+# damit die öffentlichen PDFs unter https://.../rawdownload/cv/ erreichbar sind.
+# outPublish/ enthält bewusst nur cv.pdf (siehe COPYCV im Makefile) - bewerbung.pdf
+# und application.pdf landen in outPrivate/ und werden hier NICHT verlinkt.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MAKEFILE="$REPO_DIR/Makefile"
 
-# Verzeichnisname kommt einzig aus dem Makefile (OUTPUTDIR=...), damit er
+# Verzeichnisname kommt einzig aus dem Makefile (OUTPUBLISH=...), damit er
 # nur an einer Stelle im Projekt gepflegt werden muss.
-OUTPUTDIR_NAME="$(grep -m1 '^OUTPUTDIR[[:space:]]*=' "$MAKEFILE" | cut -d= -f2- | xargs)"
-if [ -z "$OUTPUTDIR_NAME" ]; then
-    echo "Fehler: OUTPUTDIR konnte nicht aus $MAKEFILE gelesen werden." >&2
+OUTPUBLISH_NAME="$(grep -m1 '^OUTPUBLISH[[:space:]]*=' "$MAKEFILE" | cut -d= -f2- | xargs)"
+if [ -z "$OUTPUBLISH_NAME" ]; then
+    echo "Fehler: OUTPUBLISH konnte nicht aus $MAKEFILE gelesen werden." >&2
     exit 1
 fi
 
-SOURCE_DIR="$REPO_DIR/$OUTPUTDIR_NAME"
+SOURCE_DIR="$REPO_DIR/$OUTPUBLISH_NAME"
 TARGET_DIR="/var/www/rawdownload"
 LINK_NAME="cv"
 LINK_PATH="$TARGET_DIR/$LINK_NAME"
 
 if [ ! -d "$SOURCE_DIR" ]; then
-    echo "Fehler: $SOURCE_DIR existiert nicht. Erst 'make' ausführen." >&2
+    echo "Fehler: $SOURCE_DIR existiert nicht. Erst 'make cv' (oder 'make') ausführen." >&2
     exit 1
 fi
 
