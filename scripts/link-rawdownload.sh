@@ -4,7 +4,17 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SOURCE_DIR="$REPO_DIR/output"
+MAKEFILE="$REPO_DIR/Makefile"
+
+# Verzeichnisname kommt einzig aus dem Makefile (OUTPUTDIR=...), damit er
+# nur an einer Stelle im Projekt gepflegt werden muss.
+OUTPUTDIR_NAME="$(grep -m1 '^OUTPUTDIR[[:space:]]*=' "$MAKEFILE" | cut -d= -f2- | xargs)"
+if [ -z "$OUTPUTDIR_NAME" ]; then
+    echo "Fehler: OUTPUTDIR konnte nicht aus $MAKEFILE gelesen werden." >&2
+    exit 1
+fi
+
+SOURCE_DIR="$REPO_DIR/$OUTPUTDIR_NAME"
 TARGET_DIR="/var/www/rawdownload"
 LINK_NAME="cv"
 LINK_PATH="$TARGET_DIR/$LINK_NAME"
